@@ -1,7 +1,10 @@
+var loader = new THREE.TextureLoader();
+loader.crossOrigin = "anonymous";
+var barktex = loader.load( "img/birchBark.png" );
+
 function BirchPart(level) {
 	
 	this.level = level;
-	console.log(level);
 	
 	this.childParts = [];
 	this.timestamp = Date.now();
@@ -18,17 +21,20 @@ function BirchPart(level) {
 	var material;
 	var geometry;
 	
+	
 
 	
 	if (this.level === 0) {
-		material = new THREE.MeshLambertMaterial( {color: 0xe8d8c1} );
+		//material = new THREE.MeshLambertMaterial( {color: 0xe8d8c1} );
+		material = new THREE.MeshLambertMaterial( {map: barktex} );
+		
 		geometry = new THREE.CylinderGeometry(.07, .1, 1, 3, 1, true );
 		this.branchTime = 5;
 		this.numBranches = 5;
 		
 	} else if (this.level < 5) {
 		
-		material = new THREE.MeshLambertMaterial( {color: 0xe8d8c1} );
+		material = new THREE.MeshLambertMaterial( {map: barktex} );
 		geometry = new THREE.CylinderGeometry(.07, .1, 1, 3, 1, true );
 		this.numBranches = 3
 		this.minBranchAngle = 25;
@@ -36,12 +42,10 @@ function BirchPart(level) {
 		
 	} else if (this.level === 5) {
 		
-		material = new THREE.MeshLambertMaterial( {color: 0xe8d8c1} );
+		material = new THREE.MeshLambertMaterial( {map: barktex} );
 		geometry = new THREE.CylinderGeometry(.07, .1, 1, 3, 1, true );
-		this.numBranches = 3;
+		this.numBranches = 2;
 		this.straight = true;
-		this.minBranchAngle = 90;
-		this.maxBranchAngle = 90;
 		
 	} else {
 		
@@ -50,11 +54,11 @@ function BirchPart(level) {
 		
 		geometry = new THREE.Geometry();
 		geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
-		geometry.vertices.push( new THREE.Vector3( -0.2, 0.1, 0 ) );
-		geometry.vertices.push( new THREE.Vector3( 0, 0.5, 0 ) );
-		geometry.vertices.push( new THREE.Vector3( 0.2, 0.1, 0 ) );
+		geometry.vertices.push( new THREE.Vector3( -0.4, 0.2, 0 ) );
+		geometry.vertices.push( new THREE.Vector3( 0, 1, 0 ) );
+		geometry.vertices.push( new THREE.Vector3( 0.4, 0.2, 0 ) );
 		
-		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) ); // counter-clockwise winding order
+		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 		geometry.faces.push( new THREE.Face3( 0, 2, 3 ) );
 		geometry.translate(0, -0.5, 0);
 		
