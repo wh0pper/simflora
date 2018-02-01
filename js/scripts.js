@@ -29,7 +29,7 @@ $(document).ready(function() {
 		growthStart = true;
 		document.getElementById('welcome').style.display = 'none';
 	})
-	
+
 	var time = new Time();
 
 	document.getElementById("timeRate").oninput = function() {
@@ -37,7 +37,7 @@ $(document).ready(function() {
 	}
 
 	document.getElementById("resetIcon").addEventListener( 'click', function(event) {
-		
+
 	})
 
 	Geometry();
@@ -71,6 +71,8 @@ $(document).ready(function() {
 	roots.group.rotation.x = Math.PI;
 	scene.add(roots.group);
 
+	var shrooms = new Shrooms();
+	scene.add(shrooms.group);
 
 	//var audio = new Audio('audio_file.mp3');
 	//audio.play();
@@ -87,6 +89,7 @@ $(document).ready(function() {
 		scene.rotation.y += .001 * time.timeRate;
 		TWEEN.update();
 		soil.update(time)
+		// shrooms.update();
 		if (growthStart) maple.update(time);
 		if (growthStart) roots.update(time);
 		lighting.update(time);
