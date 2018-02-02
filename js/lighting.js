@@ -13,10 +13,10 @@ function Lighting() {
 	sunLight.add( new THREE.Mesh( sunGeometry, sunMaterial ));
 	sunLight.position.set( 0, 1.2, 0 );
 	sunLight.castShadow = true;
-	
-	
-	
-	
+
+
+
+
 	var texture = new THREE.TextureLoader().load( "https://i.imgur.com/LplOZKW.png" );
 
 	var flareColor = new THREE.Color( 0xffffff );
@@ -24,7 +24,7 @@ function Lighting() {
 	this.lensFlare = new THREE.LensFlare( texture, 120, 0.0, THREE.AdditiveBlending, flareColor);
 	sunLight.add(this.lensFlare);
 
-	
+
 
 	this.innerPlane = new THREE.Group();
 	this.innerPlane.add(sunLight);
@@ -45,7 +45,8 @@ function Lighting() {
 
 		ambient.intensity = Math.abs(Math.cos(time.dayRad))*.6 + 1.4;
 		winterLight.intensity = -Math.sin(time.seasonRad)*.4;
-		
+		summerLight.intensity = Math.sin(time.seasonRad)*.8;
+
 	};
 
 	this.group = new THREE.Group();
