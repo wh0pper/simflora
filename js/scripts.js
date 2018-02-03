@@ -7,10 +7,10 @@ function Stars() {
 	this.group = new THREE.Group();
 	var material = new THREE.MeshStandardMaterial( {emissive: 0xffffee, emissiveIntensity: 1, color: 0x000000 });
 	var starField = new THREE.Geometry();
-	for (var i = 0; i < 1000; i++) {
+	for (var i = 0; i < 500; i++) {
 		var radius = .05//Math.random()*.005 + .005;
 		var geometry = new THREE.SphereGeometry(radius, 2, 2 );
-		var distance = 7 + Math.random()*15;
+		var distance = 5 + Math.random()*30;
 		geometry.translate(distance, distance, distance);
 		var star = new THREE.Mesh( geometry );
 		star.quaternion.setFromEuler(rotateAndTilt(Math.random() * 360, Math.random() * 360));
@@ -29,15 +29,14 @@ $(document).ready(function() {
 		growthStart = true;
 		document.getElementById('welcome').style.display = 'none';
 	})
-	
+
 	var time = new Time();
 
 	document.getElementById("timeRate").oninput = function() {
 		time.setRate(document.getElementById("timeRate").value);
 	}
 
-
-	Geometry();
+	var geometry = Geometry();
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 	renderer.shadowMap.enabled = true;
@@ -52,7 +51,7 @@ $(document).ready(function() {
 
 	var scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x000000 );
-	
+
 
 	var lighting = new Lighting();
 	scene.add(lighting.group);
@@ -69,28 +68,22 @@ $(document).ready(function() {
 	var roots = new RootPart(undefined);
 	roots.group.rotation.x = Math.PI;
 	scene.add(roots.group);
-	
-	
-	$("#resetIcon").click (function() {	
-		
-		
+
+
+	$("#resetIcon").click(function() {
 		scene.remove(maple.group);
 		dispose(maple.group);
-		
+
 		maple = new MaplePart(undefined, "trunk");
 		scene.add(maple.group);
-		
+
 		scene.remove(roots.group);
 		dispose(roots.group);
-		
+
 		roots = new RootPart(undefined);
 		roots.group.rotation.x = Math.PI;
 		scene.add(roots.group);
 	});
-
-
-	//var audio = new Audio('audio_file.mp3');
-	//audio.play();
 
 	var controls = new THREE.OrbitControls(camera,  renderer.domElement);
 	controls.addEventListener('change', function() {renderer.render(scene, camera);});
@@ -98,10 +91,11 @@ $(document).ready(function() {
 	time.update();
 	maple.update(time);
 	roots.update(time);
+
 	function animate() {
 		time.update();
 		requestAnimationFrame(animate);
-		scene.rotation.y += .001 * time.timeRate;
+		scene.rotation.y += .002 * time.timeRate;
 		TWEEN.update();
 		soil.update(time)
 		if (growthStart) maple.update(time);

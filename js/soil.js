@@ -16,8 +16,7 @@ function Soil() {
 	this.top.receiveShadow = true;
 
 	var rimGeometry = new THREE.TorusGeometry(10, .5, 16, 6);
-	// rimGeometry.translate(-.25, 0, 0);
-	// var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+
 	this.rim = new THREE.Mesh(rimGeometry, topMaterial);
 	this.rim.rotation.x = Math.PI/2;
 	this.rim.rotation.z = Math.PI/2;
@@ -36,7 +35,7 @@ function Soil() {
 	this.snowTop = new THREE.Mesh( topGeometry, snowMaterial );
 	this.snowTop.position.y = -.05;
 	// this.snowTop.castShadow = true;
-	this.snowTop.receiveShadow = true;
+	// this.snowTop.receiveShadow = true;
 
 
 	var snowRimGeometry = new THREE.TorusGeometry(10, .45, 16, 6);
@@ -44,8 +43,6 @@ function Soil() {
 	this.snowRim.rotation.x = Math.PI/2;
 	this.snowRim.rotation.z = Math.PI/2;
 	this.snowRim.position.y = -.5;
-	// this.snowTop.add(this.snowRim);
-	// this.snowTop.scale.set(1, 1, .95);
 	this.groundSnow.add(this.snowTop);
 	this.groundSnow.add(this.snowRim);
 
@@ -58,8 +55,6 @@ function Soil() {
 
 	this.group.add(this.top);
 	this.group.add(this.rim);
-
-	// this.group.add(this.snow)
 	this.group.add(this.bottom);
 
 	var material = new THREE.MeshLambertMaterial( {color: 0x423224} );
@@ -78,7 +73,6 @@ function Soil() {
 
 	};
 
-
 	var stoneMaterial = new THREE.MeshLambertMaterial( {color: 0x656b59} );
 	var mossMaterial = new THREE.MeshLambertMaterial( {color: 0x4d5e35} );
 
@@ -87,7 +81,6 @@ function Soil() {
 		var stoneGeometry = new THREE.SphereGeometry(radius, 8, 8 );
 		var snowGeometry = new THREE.SphereGeometry(radius*.9, 8, 8);
 		var mossGeometry = new THREE.SphereGeometry(radius*.95, 8, 8);
-
 
 		var x = 2 + Math.random() * 6.5;
 		stoneGeometry.translate(x, 0, 0);

@@ -1,12 +1,11 @@
 function Time() {
 
-	this.timeRate = 1;
+	this.timeRate = 2;
 	this.setRate = function(rate){
 		this.timeRate = rate;
 		this.update();
-		//console.log(this.timeRate);
 	}
-	
+
 	this.systemTime = Date.now();
 	this.lastSystemTime = this.systemTime;
 
@@ -25,26 +24,22 @@ function Time() {
 
 	this.dayRad = 0;
 	this.seasonRad = 0;
-	
+
 	this.start = false;
 
 	this.update = function() {
-
 		this.lastSystemTime = this.systemTime;
 		this.systemTime = Date.now();
-		
-		
+
+
 		this.delta = (this.systemTime - this.lastSystemTime) * this.timeRate;
 		this.time += this.delta;
-		
-		
+
+
 		this.dayRad = ((this.time / dayLength) % 2) * Math.PI;
 		this.seasonRad = ((this.time / (dayLength * daysPerYear)) % 2) * Math.PI;
 		this.lastSeason = this.currentSeason;
 		this.currentSeason = this.getSeason();
-		
-		//console.log(this.delta);
-		
 	}
 
 	this.getSeason = function() {

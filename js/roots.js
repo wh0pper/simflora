@@ -10,7 +10,7 @@ function RootPart(parentPart) {
 	if (parentPart === undefined) {
 		this.level = 1;
 		this.budGrowth = 1;
-		this.numChildren = 9;
+		this.numChildren = 8;
 		this.minAngle = 0;
 		this.maxAngle = 80;
 
@@ -33,8 +33,8 @@ function RootPart(parentPart) {
 			this.numChildren = 2
 			this.minAngle = 0;
 			this.maxAngle = 30;
-			this.lengthFactor = 1.1 * Math.random();
-			this.widthFactor = 0.35;
+			this.lengthFactor = .6* Math.random() + .1;
+			this.widthFactor = 0.22;
 			this.type = "root";
 
 		} else {
@@ -45,8 +45,8 @@ function RootPart(parentPart) {
 			this.numChildren = 1;
 			this.minAngle = 10;
 			this.maxAngle = 30;
-			this.lengthFactor = 1.3*Math.random() + .1;
-			this.widthFactor = 0.3;
+			this.lengthFactor = .9*Math.random() + .1;
+			this.widthFactor = 0.14;
 			this.type = "rootlet";
 
 		}
@@ -58,17 +58,17 @@ function RootPart(parentPart) {
 
 RootPart.prototype.update = function(time) {
 	var timeDelta = time.delta/1000;
-	var growthiness = Math.sin(Math.PI/8 + time.seasonRad) + .3;
-	if (growthiness > 0) this.growth = this.growth + timeDelta*growthiness;
+	var growthRate = Math.sin(Math.PI/8 + time.seasonRad) + .1;
+	if (growthRate > 0) this.growth = this.growth + timeDelta*growthRate;
 
 	var heightFactor = this.lengthFactor;
 
 	var growthFactor = undefined;
 	if (this.level > 1) {
-		if (this.growth < 40) {
+		if (this.growth < 60) {
 			growthFactor = Math.log(this.growth/12+1) / (this.level*1.2 + 1);
 		} else {
-			growthFactor = Math.log(40/12+1) / (this.level*1.2 + 1);
+			growthFactor = Math.log(60/12+1) / (this.level*1.2 + 1);
 		};
 		this.mesh.scale.set(growthFactor * this.widthFactor, growthFactor * heightFactor, growthFactor * this.widthFactor);
 	};

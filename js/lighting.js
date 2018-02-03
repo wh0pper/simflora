@@ -1,58 +1,41 @@
 function Lighting() {
-	this.timeStamp = Date.now();
-
-	var ambient = new THREE.AmbientLight(0x606060);
-
-	var sunGeometry = new THREE.SphereGeometry( .04, 16, 16 );
-	var sunLight = new THREE.DirectionalLight( 0xfffed3, 1, 100, 2 );
-	var sunMaterial = new THREE.MeshStandardMaterial( {
-		emissive: 0xffffee,
-		emissiveIntensity: 1,
-		color: 0x000000
-	});
-	sunLight.add( new THREE.Mesh( sunGeometry, sunMaterial ));
-	sunLight.position.set( 0, 1.2, 0 );
-	sunLight.castShadow = true;
-
-
-
-
+	var sunDirectional = new THREE.DirectionalLight( 0xfffed3, 1, 100, 2 );
+	sunDirectional.castShadow = true;
+	sunDirectional.position.set( 0, 1.2, 0 );
 	var texture = new THREE.TextureLoader().load( "https://i.imgur.com/LplOZKW.png" );
-
 	var flareColor = new THREE.Color( 0xffffff );
+	var lensFlare = new THREE.LensFlare( texture, 140, 0.0, THREE.AdditiveBlending, flareColor);
+	sunDirectional.add(lensFlare);
 
-	this.lensFlare = new THREE.LensFlare( texture, 120, 0.0, THREE.AdditiveBlending, flareColor);
-	sunLight.add(this.lensFlare);
-
-
+	// var sunGeometry = new THREE.SphereGeometry( .04, 16, 16 );
+	// var sunMaterial = new THREE.MeshStandardMaterial( {
+	// 	emissive: 0xffffee,
+	// 	emissiveIntensity: 1,
+	// 	color: 0x000000
+	// });
+	// var sunMesh = new THREE.Mesh( sunGeometry, sunMaterial);
 
 	this.innerPlane = new THREE.Group();
-	this.innerPlane.add(sunLight);
+	this.innerPlane.add(sunDirectional);
 	this.outerPlane = new THREE.Group();
 	this.outerPlane.add(this.innerPlane);
 
+	this.ambientNeutral = new THREE.AmbientLight(0x606060);
+	this.ambientWinter = new THREE.AmbientLight( 0xb9c5eb, .05, 100, 2);
+	this.ambientSummer = new THREE.AmbientLight( 0xffd505, .1, 100, 2 );
 
-	//seasonal lights
-		var winterLight = new THREE.AmbientLight( 0xb9c5eb, .05, 100, 2);
-
-		var summerLight = new THREE.AmbientLight( 0xffd505, .1, 100, 2 );
-
+	this.group = new THREE.Group();
+	this.group.add(this.outerPlane);
+	this.group.add(this.ambientNeutral);
+	this.group.add(this.ambientWinter);
+	this.group.add(this.ambientSummer);
 
 	this.update = function(time) {
-		var radians = (Date.now() - this.timeStamp)/1000;
 		this.innerPlane.rotation.x = time.dayRad;
 		this.outerPlane.rotation.z = .384 - .384*Math.sin(time.seasonRad);
 
-		ambient.intensity = Math.abs(Math.cos(time.dayRad))*.6 + 1.4;
-		winterLight.intensity = -Math.sin(time.seasonRad)*.4;
-		summerLight.intensity = Math.sin(time.seasonRad)*.8;
-
+		this.ambientNeutral.intensity = Math.abs(Math.cos(time.dayRad))*.6 + 1.4;
+		this.ambientWinter.intensity = -Math.sin(time.seasonRad)*.4;
+		this.ambientSummer.intensity = Math.sin(time.seasonRad)*.8;
 	};
-
-	this.group = new THREE.Group();
-	this.group.add(ambient);
-	this.group.add(this.outerPlane);
-	this.group.add(winterLight);
-	this.group.add(summerLight);
-	//this.group.add(this.lensFlare);
 };
